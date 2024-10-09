@@ -1,0 +1,68 @@
+from rest_framework.response import Response
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework import status
+from .serializers import FileSerializers  
+from rest_framework.permissions import AllowAny,IsAuthenticated
+from .serializers import UserRegistrationSerializer 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import userDocuments  
+
+@api_view(['POST'])
+def register_user(request):
+    serializer = UserRegistrationSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'message': 'User created successfully!'}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+ 
+def home(request): 
+    documents = userDocuments.objects.all() 
+    context = {
+        'documents': documents
+    }
+    return render(request, 'index.html', context)
+
+@api_view(['POST'])
+def upload_file(request):  
+    if 'file' not in request.FILES:
+        return Response({'error': 'No file provided!'}, status=400)
+    
+    file = request.FILES['file']
+    file_type = file.content_type
+     
+    email = request.data.get('email', None)
+     
+    if not email:
+        return Response({'error': 'Email is required!'}, status=400)
+     
+    if file_type.startswith('image/'): 
+        serializers = FileSerializers(data={'image': file, 'email': email})
+    elif file_type.startswith('application/pdf'): 
+        serializers = FileSerializers(data={'pdf': file, 'email': email})
+    else:
+        return Response({'error': 'Invalid file type. Only images and PDFs are allowed!'}, status=400)
+ 
+    if serializers.is_valid():
+        serializers.save()
+        return Response(serializers.data, status=201)
+ 
+    return Response(serializers.errors, status=400)
+
+def login_user(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')   
+        else: 
+            messages.error(request, 'Invalid email or password.')
+            return redirect('login_user')                  
+
+    return render(request, 'login.html')   
+ 
