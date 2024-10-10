@@ -12,23 +12,22 @@
     />
   </head>
   <body>
-     
-<nav class="navbar navbar-dark bg-dark" style="height: 100px;">
-    <div class="container-fluid" >
-     <h1 class="navbar-brand">Uploaded Documents to certify</h1> 
-      
-    </div>
-</nav>
- 
-    
+    <nav class="navbar navbar-dark bg-dark" style="height: 100px;">
+      <div class="container-fluid">
+        <h1 class="navbar-brand">Uploaded Documents to Certify</h1>
+      </div>
+    </nav>
 
-    <table class="table table-secondary ">
+    <table class="table table-secondary">
       <thead>
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Email</th>
           <th scope="col">Document</th>
-          <th scope="col">Time and date</th>
+          <th scope="col">Time and Date</th>
+          <th scope="col">Actions</th>
+          <th scope="col">Certfied Document</th>
+          <th scope="col">Send Feedback</th>
         </tr>
       </thead>
       <tbody class="tbody tbody-secondary bg-secondary">
@@ -37,52 +36,34 @@
           <th scope="row">{{ document.id }}</th>
           <td>{{ document.email }}</td>
           <td>
-            {% if document.image %}
-            <img
-              src="{{ document.image.url }}"
-              alt="Uploaded Image"
-              width="60"
-              height="60"
-            />
-            {% else %} No Image {% endif %}
+            {% if document.pdf %}
+            <a href="{{ document.pdf.url }}" class="btn btn-success" target="_blank">View PDF</a>
+            {% else %} No PDF {% endif %}
           </td>
-
           <td>{{ document.uploaded_at }}</td>
+          <td>
+            {% if document.pdf %}
+            <button class="btn btn-primary" onclick="printDocument('{{ document.pdf.url }}')">Print</button>
+            {% endif %}
+          </td>
+          <td> <div class="mb-3"> 
+            <input class="form-control" type="file" id="formFileMultiple" multiple>
+          </div></td>
+          <td> <button class="btn btn-success" >Send feedback</button></td>
         </tr>
         {% endfor %}
       </tbody>
-    </table> 
-    <!-- <style>
-            body{
-                background-color: white;
-            }
-            form{
-                border-radius: 15px;
-                padding: auto;
-                margin: 100px auto;
-                width: 400px;
-                height: 400px;
-                background-color: transparent;
-                box-shadow: 5px 5px 56px transparent;
-                column-gap: normal;
-            }
-            input{
-                    margin-bottom: 10px;
-                }
-    </style>
+    </table>
 
-    <form  method="POST" action="{% url 'login_user' %}" >
-        {% csrf_token %}
-                    <h2><strong>Login<strong></h2>
-            
-                <input class="form-control form-control-lg" type="email" name="email" placeholder="Enter Email" aria-label=".form-control-lg example">
-              
-                <input class="form-control form-control-lg" type="password" name="password" placeholder="Password" aria-label=".form-control-lg example">
- 
-                    <button class="btn btn-primary md-3" style="width: 100%;" type="submit">Sign-in</button>
+    <script>
+      function printDocument(pdfUrl) {
+        const printWindow = window.open(pdfUrl, '_blank');
+        printWindow.onload = function() {
+          printWindow.print();
+        };
+      }
+    </script>
 
-    </form> -->
-  
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

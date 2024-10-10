@@ -25,7 +25,7 @@ def home(request):
         'documents': documents
     }
     return render(request, 'index.html', context)
-
+@permission_classes([AllowAny])
 @api_view(['POST'])
 def upload_file(request):  
     if 'file' not in request.FILES:
