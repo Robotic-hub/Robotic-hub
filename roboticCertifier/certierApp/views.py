@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework import status
@@ -9,7 +10,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import userDocuments  
-
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from django.core.mail import EmailMessage
+from django.views.decorators.csrf import csrf_exempt 
 @api_view(['POST'])
 def register_user(request):
     serializer = UserRegistrationSerializer(data=request.data)
@@ -25,6 +30,9 @@ def home(request):
         'documents': documents
     }
     return render(request, 'index.html', context)
+def done(request):  
+    return render(request, 'done.html', )
+
 @permission_classes([AllowAny])
 @api_view(['POST'])
 def upload_file(request):  
@@ -51,6 +59,43 @@ def upload_file(request):
         return Response(serializers.data, status=201)
  
     return Response(serializers.errors, status=400)
+ 
+
+
+
+
+from django.shortcuts import render, redirect
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.views.decorators.http import require_POST
+
+@require_POST
+def upload_certified_document(request):
+    if 'file' not in request.FILES or 'email' not in request.POST:
+        return render(request, 'error.html', {'error': 'No file or email provided!'})
+    
+    file = request.FILES['file']
+    email = request.POST['email']
+    file_type = file.content_type
+    
+    if not (file_type.startswith('image/') or file_type.startswith('application/pdf')):
+        return render(request, 'your_template.html', {'error': 'Invalid file type. Only images and PDFs are allowed!'})
+
+    email_message = EmailMessage(
+        subject='Your Certified Document Feedback',
+        body='Please find the document attached.',
+        from_email=settings.EMAIL_HOST_USER,
+        to=[email]
+    )
+
+    email_message.attach(file.name, file.read(), file.content_type)
+
+    try:
+        email_message.send()
+        return redirect('success_url')  # Redirect to a success page or show success message
+    except Exception as e:
+        print(f"Failed to send email: {str(e)}")
+        return render(request, 'error.html', {'error': str(e)})
 
 def login_user(request):
     if request.method == 'POST':

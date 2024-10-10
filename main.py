@@ -41,7 +41,7 @@ if uploaded_file:
         st.success("Face detected in the ID document.")
         for detection in id_results.detections:
             mp_drawing.draw_detection(id_image, detection)
-        st.image(id_image, channels="BGR", caption="Detected Face with Landmarks")
+        # st.image(id_image, channels="BGR", caption="Detected Face with Landmarks")
  
         start_webcam = st.button("Verify your face")
 
@@ -115,7 +115,7 @@ def save_document_to_db(file, email):
             response = requests.post(url, files=files, data=data)
 
         if response.status_code == 201:
-            st.success("Your document is being certified and you will get feedback in 10 mins")
+            st.success("Your document is being certified and you will get feedback in 10 mins via your provided email.")
         else:
             st.error(f"Failed to upload document. Server returned status code: {response.status_code}")
             st.write(f"Response details: {response.content}")

@@ -1,5 +1,5 @@
  
-from .models import userDocuments
+from .models import userDocuments,CertifiedDocumentUpload
 from rest_framework import serializers 
 from django.contrib.auth import get_user_model 
 
@@ -17,11 +17,16 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+class CertifiedDocumentSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = CertifiedDocumentUpload
+        fields = ['pdf']
 
 class FileSerializers(serializers.ModelSerializer):
     class Meta:
         model = userDocuments
         fields = ['image', 'pdf','email']
+        
 
     def validate_image(self, image):
         if image.size > 5 * 1024 * 1024: 

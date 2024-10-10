@@ -5,7 +5,9 @@ from . import views
 
 urlpatterns = [
     
-    path('upload_document/',views.upload_file,name='upload_files'), 
+    path('upload_document/',views.upload_file,name='upload_files'),
+    path('completed/',views.done,name='success_url'),
+    path('upload_certified_document/',views.upload_certified_document,name='upload_certified_document'), 
     path('home/',views.home,name='home'),
      
     path('', views.login_user, name='login_user'),

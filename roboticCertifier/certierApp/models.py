@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
- 
+from django.contrib.auth.models import AbstractUser 
+from django.db import models
 
 
 class userDocuments(models.Model):
@@ -10,11 +10,14 @@ class userDocuments(models.Model):
     email = models.EmailField(verbose_name="Email",max_length=254,blank=True,null=True)
     
     def __str__(self):
+        return self.email 
+class CertifiedDocumentUpload(models.Model):
+    uploaded_at=models.DateTimeField(auto_now=True,blank=True,null=True)
+    stamp = models.ImageField(upload_to='stamps',verbose_name='Stamb_image',blank=True,null=True)
+    email = models.EmailField(verbose_name="Email",max_length=254,blank=True,null=True)
+    def __str__(self):
         return self.email
-
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-
+    
 class CustomUser(AbstractUser): 
     groups = models.ManyToManyField(
         'auth.Group',

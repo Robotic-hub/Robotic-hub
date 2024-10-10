@@ -26,39 +26,81 @@
           <th scope="col">Document</th>
           <th scope="col">Time and Date</th>
           <th scope="col">Actions</th>
-          <th scope="col">Certfied Document</th>
+          <th scope="col">Certified Document</th>
           <th scope="col">Send Feedback</th>
         </tr>
       </thead>
       <tbody class="tbody tbody-secondary bg-secondary">
         {% for document in documents %}
+        <form action="{% url 'upload_certified_document' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
         <tr>
-          <th scope="row">{{ document.id }}</th>
-          <td>{{ document.email }}</td>
-          <td>
-            {% if document.pdf %}
-            <a href="{{ document.pdf.url }}" class="btn btn-success" target="_blank">View PDF</a>
-            {% else %} No PDF {% endif %}
-          </td>
-          <td>{{ document.uploaded_at }}</td>
-          <td>
-            {% if document.pdf %}
-            <button class="btn btn-primary" onclick="printDocument('{{ document.pdf.url }}')">Print</button>
-            {% endif %}
-          </td>
-          <td> <div class="mb-3"> 
-            <input class="form-control" type="file" id="formFileMultiple" multiple>
-          </div></td>
-          <td> <button class="btn btn-success" >Send feedback</button></td>
+            <th scope="row">{{ document.id }}</th>
+            <td>{{ document.email }}</td>
+            <td>
+                {% if document.pdf %}
+                <a href="{{ document.pdf.url }}" class="btn btn-outlined btn-success" target="_blank">View PDF</a>
+                {% else %} No PDF {% endif %}
+            </td>
+            <td>{{ document.uploaded_at }}</td>
+            <td>
+                {% if document.pdf %}
+                <button class="btn btn-primary" onclick="printDocument('{{ document.pdf.url }}')">Print</button>
+                {% endif %}
+            </td>
+            <td>
+                
+                    <input type="hidden" name="email" value="{{ document.email }}">
+                    <input class="form-control" type="file" name="file" required />
+                
+            </td>
+            <td>
+                    <button class="btn btn-success" type="submit">Send Feedback</button></td>
         </tr>
+      </form>
         {% endfor %}
-      </tbody>
+    </tbody>
+    
     </table>
 
     <script>
+//    function sendFeedback(documentId, documentEmail) {
+//     const feedbackFile = document.getElementById(`feedbackFile${documentId}`).files[0];
+
+//     if (!feedbackFile) {
+//         alert("Please upload a file.");
+//         return;
+//     }
+
+//     const formData = new FormData();
+//     formData.append("file", feedbackFile);
+//     formData.append("email", documentEmail);  
+
+//     fetch("http://127.0.0.1:8000/upload_certified_document/", {
+//         method: "POST",
+//         body: formData,
+//     })
+//     .then(response => {
+//         if (!response.ok) { 
+//             return response.json().then(data => {
+//                 throw new Error(data.error || "Something went wrong");
+//             });
+//         }
+//         return response.json();
+//     })
+//     .then(data => {
+//         alert(data.message || "Feedback sent successfully!");
+//     })
+//     .catch(error => {
+//         console.error("Error:", error);
+//         alert("Failed to send feedback: " + error.message);  // Display the error message
+//     });
+// }
+
+
       function printDocument(pdfUrl) {
-        const printWindow = window.open(pdfUrl, '_blank');
-        printWindow.onload = function() {
+        const printWindow = window.open(pdfUrl, "_blank");
+        printWindow.onload = function () {
           printWindow.print();
         };
       }
