@@ -1,20 +1,17 @@
+  
 from django.conf import settings
+from django.shortcuts import render, redirect  
+from django.views.decorators.http import require_POST 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework import status
 from .serializers import FileSerializers  
 from rest_framework.permissions import AllowAny,IsAuthenticated
-from .serializers import UserRegistrationSerializer 
-from django.shortcuts import render, redirect
+from .serializers import UserRegistrationSerializer  
 from django.contrib.auth import authenticate, login
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .models import userDocuments  
-from rest_framework.permissions import AllowAny
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from django.core.mail import EmailMessage
-from django.views.decorators.csrf import csrf_exempt 
+from django.contrib import messages 
+from .models import userDocuments    
+from django.core.mail import EmailMessage 
 @api_view(['POST'])
 def register_user(request):
     serializer = UserRegistrationSerializer(data=request.data)
@@ -62,13 +59,6 @@ def upload_file(request):
  
 
 
-
-
-from django.shortcuts import render, redirect
-from django.core.mail import EmailMessage
-from django.conf import settings
-from django.views.decorators.http import require_POST
-
 @require_POST
 def upload_certified_document(request):
     if 'file' not in request.FILES or 'email' not in request.POST:
@@ -79,7 +69,7 @@ def upload_certified_document(request):
     file_type = file.content_type
     
     if not (file_type.startswith('image/') or file_type.startswith('application/pdf')):
-        return render(request, 'your_template.html', {'error': 'Invalid file type. Only images and PDFs are allowed!'})
+        return render(request, 'index.html', {'error': 'Invalid file type. Only images and PDFs are allowed!'})
 
     email_message = EmailMessage(
         subject='Your Certified Document Feedback',
