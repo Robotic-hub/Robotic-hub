@@ -92,7 +92,7 @@ def upload_certified_document(request):
 
     try:
         email_message.send()
-        return redirect('success_url')  # Redirect to a success page or show success message
+        return redirect('success_url')  
     except Exception as e:
         print(f"Failed to send email: {str(e)}")
         return render(request, 'error.html', {'error': str(e)})
