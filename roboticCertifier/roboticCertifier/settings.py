@@ -175,3 +175,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'setamict@gmail.com'
 EMAIL_HOST_PASSWORD = 'owwa msaz ueit juum'
 DEFAULT_FROM_EMAIL = 'setamict@gmail.com' 
+
+
+STATIC_URL = '/Static/'
+STATICFILES_DIRS = [
+    BASE_DIR /"Static",
+
+]
