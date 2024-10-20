@@ -9,7 +9,11 @@
 <body>
     <style>
         body{
-            background-color: white;
+            background-color:rgba(21, 151, 101, 0.925);
+            height: 100vh;
+            padding: 20px;
+            
+
         }
 form{
     border-radius: 15px;
@@ -24,17 +28,42 @@ form{
 input{
     margin-bottom: 10px;
 }
+.container{
+    background-color: rgb(28, 34, 34);
+    width: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    gap: 2px;
+    box-shadow: 1px 2px 2px black;
+}
+.loginWord{
+    color: white;
+}
+button{
+    background-color: rgb(21, 151, 101,0.925);
+    color: black;
+    padding: 10px 40px 10px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
     </style>
 
     <form  method="POST" action="{% url 'login_user' %}" >
         {% csrf_token %}
-                    <h2><strong>Login<strong></h2>
+        <div class="container">
+                    <h2 class="loginWord"><strong>Login<strong></h2>
             
                 <input class="form-control form-control-lg" type="email" name="email" placeholder="Enter Email" aria-label=".form-control-lg example">
               
                 <input class="form-control form-control-lg" type="password" name="password" placeholder="Password" aria-label=".form-control-lg example">
  
-                    <button class="btn btn-primary md-3" type="submit">Sign-in</button>
+                    <button class="button" type="submit">Sign-in</button>
+         </div>           
 
     </form>
   
