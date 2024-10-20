@@ -109,5 +109,36 @@ def login_user(request):
             messages.error(request, 'Invalid email or password.')
             return redirect('login_user')                  
 
-    return render(request, 'login.html')   
+    return render(request, 'login.html')  
+    @require_POST
+def upload_certified_document(request):
+    if 'file' not in request.FILES or 'email' not in request.POST:
+        return render(request, 'error.html', {'error': 'No file or email provided!'})
+    
+    file = request.FILES['file']
+    email = request.POST['email']
+    file_type = file.content_type
+    
+    if not (file_type.startswith('image/') or file_type.startswith('application/pdf')):
+        return render(request, 'error.html', {'error': 'Invalid file type. Only images and PDFs are allowed!'})
+
+    email_message = EmailMessage(
+        subject='Your Certified Document Feedback',
+        body='Please find the document attached.',
+        from_email=settings.EMAIL_HOST_USER,
+        to=[email]
+    )
+
+    email_message.attach(file.name, file.read(), file.content_type)
+
+    try:
+        email_message.send()
+        
+        ##Here is were you will need to create a functionality to delete the data of the person who got the feedback
+        user_doc = get_object_or_404(userDocuments, email=email) 
+user_doc.delete()
+        return redirect('success_url')  
+    except Exception as e:
+        print(f"Failed to send email: {str(e)}")
+        return render(request, 'error.html', {'error': str(e)}) 
  
