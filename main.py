@@ -9,7 +9,8 @@ from PIL import Image
 import io
  
 
-st.title("ID Document Upload and Face Verification")
+st.title("Upload your ID for face verification")
+st.write('Upload the document that you want to certify and if its the ID then skip!.')
  
 mp_face_detection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
