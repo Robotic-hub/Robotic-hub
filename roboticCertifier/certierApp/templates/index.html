@@ -62,49 +62,7 @@
     </tbody>
     
     </table>
-
-    <script>
-//    function sendFeedback(documentId, documentEmail) {
-//     const feedbackFile = document.getElementById(`feedbackFile${documentId}`).files[0];
-
-//     if (!feedbackFile) {
-//         alert("Please upload a file.");
-//         return;
-//     }
-
-//     const formData = new FormData();
-//     formData.append("file", feedbackFile);
-//     formData.append("email", documentEmail);  
-
-//     fetch("http://127.0.0.1:8000/upload_certified_document/", {
-//         method: "POST",
-//         body: formData,
-//     })
-//     .then(response => {
-//         if (!response.ok) { 
-//             return response.json().then(data => {
-//                 throw new Error(data.error || "Something went wrong");
-//             });
-//         }
-//         return response.json();
-//     })
-//     .then(data => {
-//         alert(data.message || "Feedback sent successfully!");
-//     })
-//     .catch(error => {
-//         console.error("Error:", error);
-//         alert("Failed to send feedback: " + error.message);  // Display the error message
-//     });
-// }
-
-
-      function printDocument(pdfUrl) {
-        const printWindow = window.open(pdfUrl, "_blank");
-        printWindow.onload = function () {
-          printWindow.print();
-        };
-      }
-    </script>
+ <script src="{% static 'js/main.js' %}"></script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
