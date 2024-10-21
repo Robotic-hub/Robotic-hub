@@ -1,7 +1,8 @@
 body{ 
     height: 100vh;
     padding: 20px;
-    background: url('images/');
+    background: url('/roboticCertifier/certierApp/static/images/Background.jpg') fixed no-repeat center;
+ background-size: cover;
 
 }
 form{
