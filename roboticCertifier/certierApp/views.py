@@ -9,9 +9,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import userDocuments  
-from rest_framework.permissions import AllowAny
-from rest_framework.decorators import api_view, permission_classes
+from .models import userDocuments   
 from rest_framework.response import Response
 from django.core.mail import EmailMessage
 from django.views.decorators.csrf import csrf_exempt 
@@ -79,7 +77,7 @@ def upload_certified_document(request):
     file_type = file.content_type
     
     if not (file_type.startswith('image/') or file_type.startswith('application/pdf')):
-        return render(request, 'your_template.html', {'error': 'Invalid file type. Only images and PDFs are allowed!'})
+        return render(request, 'error.html', {'error': 'Invalid file type. Only images and PDFs are allowed!'})
 
     email_message = EmailMessage(
         subject='Your Certified Document Feedback',
@@ -98,7 +96,7 @@ def upload_certified_document(request):
     except Exception as e:
         print(f"Failed to send email: {str(e)}")
         return render(request, 'error.html', {'error': str(e)})
-
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         email = request.POST.get('email')
