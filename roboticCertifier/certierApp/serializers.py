@@ -20,12 +20,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class CertifiedDocumentSerializers(serializers.ModelSerializer):
     class Meta:
         model = CertifiedDocumentUpload
-        fields = ['pdf']
+        fields = ['stamp','uploaded_at','address']
 
 class FileSerializers(serializers.ModelSerializer):
     class Meta:
         model = userDocuments
-        fields = ['image', 'pdf','email']
+        fields = ['image', 'pdf','email','address']
         
 
     def validate_image(self, image):
