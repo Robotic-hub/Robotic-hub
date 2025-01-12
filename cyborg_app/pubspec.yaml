@@ -40,22 +40,41 @@ dependencies:
   google_ml_kit: ^0.19.0
   image: ^4.3.0
   google_mlkit_face_mesh_detection: ^0.3.0
+  http: ^1.2.2
+  image_picker: ^1.1.2
+  pcanvas: ^1.1.1
+  path_provider: ^2.1.5
+  syncfusion_flutter_pdf: ^28.1.38
+  url_launcher: ^6.3.1
+  syncfusion_flutter_pdfviewer: ^28.1.38
+  pdf: ^3.11.1
+  flutter_pdfview: ^1.4.0
+  flutter_launcher_icons: ^0.14.2
+
+
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
+    sdk: flutter  
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icons.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode" 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
+ 
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -64,8 +83,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

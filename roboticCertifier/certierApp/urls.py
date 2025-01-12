@@ -12,6 +12,7 @@ urlpatterns = [
     path('get_stamp/',views.get_stamp,name='get_stamp'), 
     path('home/',views.home,name='home'),
     path('', views.login_user, name='login_user'),
+    path('verify-faces/', views.verifyFace, name='verify-face'),
     
 ]
 

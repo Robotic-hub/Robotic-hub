@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-b#ez@%c%tx2#uu(_b@2e8v8ej8d!9$9(&kaz!51w0en@$l@rh7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.2.2','127.0.0.1','192.168.0.242','.vercel.app','.now.sh']
 
 
 # Application definition
@@ -45,16 +45,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     
-]
+] 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8501",  # Add your Streamlit app's URL here
-    "http://127.0.0.1:8501", 
-    "https://example.com",
-    "https://sub.example.com",
-    "http://localhost:8080",
-    "http://127.0.0.1:8000",
-]
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
@@ -91,10 +84,14 @@ WSGI_APPLICATION = 'roboticCertifier.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+'default': {
+'ENGINE': 'django.db.backends.postgresql',
+'NAME': 'railway',
+'USER':'postgres',
+'PASSWORD': 'zVmRdmQXlNkqEnwqcJZFUJnWfhgmndiw',
+'HOST':  'viaduct.proxy.rlwy.net',
+'PORT': '41669',  
+}
 }
 
 
@@ -161,12 +158,10 @@ REST_FRAMEWORK = {
     ],
 }
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Optionally, set a maximum file size
-FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440  # e.g., 2.5MB
-# settings.py
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'media')
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440 
+ 
  
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

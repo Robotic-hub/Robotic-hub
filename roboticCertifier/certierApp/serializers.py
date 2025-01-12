@@ -1,5 +1,5 @@
  
-from .models import userDocuments,CertifiedDocumentUpload
+from .models import userDocuments,CertifiedDocumentUpload,UserFaceVerification
 from rest_framework import serializers 
 from django.contrib.auth import get_user_model 
 
@@ -21,7 +21,13 @@ class CertifiedDocumentSerializers(serializers.ModelSerializer):
     class Meta:
         model = CertifiedDocumentUpload
         fields = ['stamp','uploaded_at','address']
-
+        
+class UserFaceVerificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFaceVerification
+        fields = '__all__'
+        
+        
 class FileSerializers(serializers.ModelSerializer):
     class Meta:
         model = userDocuments
